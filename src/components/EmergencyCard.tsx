@@ -40,6 +40,9 @@ export function EmergencyCard() {
   const medications = isPt ? profile.medicationsPt : profile.medicationsEn;
   const birthDate = isPt ? profile.birthDatePt : profile.birthDateEn;
   const nationality = isPt ? profile.nationalityPt : profile.nationalityEn;
+  const sex = isPt ? profile.sexPt : profile.sexEn;
+  const weight = isPt ? profile.weightPt : profile.weightEn;
+  const height = isPt ? profile.heightPt : profile.heightEn;
 
   const buildSummaryText = () => {
     const contactLines = profile.emergencyContacts
@@ -51,6 +54,8 @@ export function EmergencyCard() {
         'CARTÃO DE EMERGÊNCIA',
         `Nome: ${profile.fullName}`,
         `Data de Nascimento: ${profile.birthDatePt}`,
+        `Sexo: ${profile.sexPt}`,
+        `Peso: ${profile.weightPt} | Altura: ${profile.heightPt}`,
         `Tipo Sanguíneo: ${profile.bloodType}`,
         `Celular: ${profile.phoneDisplay}`,
         `Condições Médicas / Doenças: ${profile.conditionsPt.join(', ')}`,
@@ -64,6 +69,8 @@ export function EmergencyCard() {
       'EMERGENCY MEDICAL CARD',
       `Full Name: ${profile.fullName}`,
       `Date of Birth: ${profile.birthDateEn}`,
+      `Sex: ${profile.sexEn}`,
+      `Weight: ${profile.weightEn} | Height: ${profile.heightEn}`,
       `Blood Type: ${profile.bloodType}`,
       `Mobile: ${profile.phoneDisplay}`,
       `Medical Conditions: ${profile.conditionsEn.join(', ')}`,
@@ -144,6 +151,13 @@ export function EmergencyCard() {
                 ·
               </span>
               <span>
+                {isPt ? 'Sexo:' : 'Sex:'}{' '}
+                <strong className="font-semibold text-slate-900">{sex}</strong>
+              </span>
+              <span aria-hidden="true" className="text-slate-300">
+                ·
+              </span>
+              <span>
                 {isPt ? 'Nacionalidade:' : 'Nationality:'}{' '}
                 <strong className="font-semibold text-slate-900">{nationality}</strong>
               </span>
@@ -151,14 +165,32 @@ export function EmergencyCard() {
 
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm text-slate-600">
               <span>
-                {isPt ? 'Cidade:' : 'City:'}{' '}
-                <strong className="font-semibold text-slate-900">
-                  {profile.cityState}
+                {isPt ? 'Peso:' : 'Weight:'}{' '}
+                <strong className="font-semibold text-slate-900 tabular-nums">
+                  {weight}
                 </strong>
               </span>
               <span aria-hidden="true" className="text-slate-300">
                 ·
               </span>
+              <span>
+                {isPt ? 'Altura:' : 'Height:'}{' '}
+                <strong className="font-semibold text-slate-900 tabular-nums">
+                  {height}
+                </strong>
+              </span>
+              <span aria-hidden="true" className="text-slate-300">
+                ·
+              </span>
+              <span>
+                {isPt ? 'Cidade:' : 'City:'}{' '}
+                <strong className="font-semibold text-slate-900">
+                  {profile.cityState}
+                </strong>
+              </span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm text-slate-600">
               <span className="inline-flex items-center gap-2">
                 <span>{isPt ? 'Celular:' : 'Mobile:'}</span>
                 <a
@@ -230,11 +262,11 @@ export function EmergencyCard() {
 
         {/* Emergency Contacts */}
         <section className="px-6 sm:px-8 py-7 bg-slate-50/70">
-          <h2 className="text-xs font-semibold text-red-700 mb-2">
+          <h2 className="text-xs font-semibold text-red-700 mb-4">
             {isPt ? 'Contatos de Emergência' : 'Emergency Contacts'}
           </h2>
 
-          <ul className="divide-y divide-slate-200">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {profile.emergencyContacts.map((contact) => {
               const relation = isPt ? contact.relationPt : contact.relationEn;
               const copyKey = `phone-${contact.id}`;
@@ -243,61 +275,66 @@ export function EmergencyCard() {
               return (
                 <li
                   key={contact.id}
-                  className="py-5 first:pt-2 last:pb-0 flex flex-col lg:flex-row lg:items-center justify-between gap-4"
+                  className="bg-white border border-slate-200 rounded-xl p-5 flex flex-col justify-between gap-4"
                 >
                   <div>
-                    <p className="text-lg sm:text-xl font-bold text-slate-900">
+                    <p className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
                       {contact.name}{' '}
                       <span className="font-normal text-slate-500">({relation})</span>
                     </p>
                     <a
                       href={`tel:${contact.phoneDial}`}
-                      className="mt-1 inline-flex items-center gap-2 font-mono text-base sm:text-lg font-semibold text-red-700 hover:text-red-800 underline underline-offset-4 decoration-red-300 hover:decoration-red-700 tabular-nums transition-colors"
+                      className="mt-1.5 inline-flex items-center gap-2 font-mono text-sm sm:text-base font-semibold text-red-700 hover:text-red-800 underline underline-offset-4 decoration-red-300 hover:decoration-red-700 tabular-nums transition-colors"
                     >
                       <Phone className="w-4 h-4 shrink-0" aria-hidden="true" />
                       {contact.phoneDisplay}
                     </a>
                   </div>
 
-                  <div className="no-print flex flex-wrap items-center gap-2.5">
+                  <div className="no-print flex flex-col gap-2 pt-3 border-t border-slate-100">
                     <a
                       href={`tel:${contact.phoneDial}`}
-                      className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 text-sm font-semibold text-white bg-red-600 rounded-xl hover:bg-red-700 active:scale-[0.99] transition-all whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                      className="w-full inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 active:scale-[0.99] transition-all whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                     >
-                      <Phone className="w-4 h-4" aria-hidden="true" />
+                      <Phone className="w-4 h-4 shrink-0" aria-hidden="true" />
                       {isPt ? `Ligar para ${firstName}` : `Call ${firstName}`}
                     </a>
 
-                    <a
-                      href={`https://wa.me/${contact.whatsapp}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 text-sm font-semibold text-slate-900 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
-                    >
-                      <MessageCircle
-                        className="w-4 h-4 text-emerald-700"
-                        aria-hidden="true"
-                      />
-                      WhatsApp
-                    </a>
+                    <div className="grid grid-cols-2 gap-2">
+                      <a
+                        href={`https://wa.me/${contact.whatsapp}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 text-sm font-semibold text-slate-900 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
+                      >
+                        <MessageCircle
+                          className="w-4 h-4 text-emerald-700 shrink-0"
+                          aria-hidden="true"
+                        />
+                        WhatsApp
+                      </a>
 
-                    <button
-                      type="button"
-                      onClick={() => void copyText(contact.phoneDisplay, copyKey)}
-                      className="inline-flex items-center justify-center gap-2 min-h-[44px] px-3.5 py-2.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-xl hover:bg-slate-50 transition-colors whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
-                    >
-                      {copiedId === copyKey ? (
-                        <>
-                          <Check className="w-4 h-4 text-emerald-700" aria-hidden="true" />
-                          {isPt ? 'Copiado' : 'Copied'}
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-4 h-4" aria-hidden="true" />
-                          {isPt ? 'Copiar' : 'Copy'}
-                        </>
-                      )}
-                    </button>
+                      <button
+                        type="button"
+                        onClick={() => void copyText(contact.phoneDisplay, copyKey)}
+                        className="inline-flex items-center justify-center gap-2 min-h-[44px] px-3 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
+                      >
+                        {copiedId === copyKey ? (
+                          <>
+                            <Check
+                              className="w-4 h-4 text-emerald-700 shrink-0"
+                              aria-hidden="true"
+                            />
+                            {isPt ? 'Copiado' : 'Copied'}
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-4 h-4 shrink-0" aria-hidden="true" />
+                            {isPt ? 'Copiar' : 'Copy'}
+                          </>
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </li>
               );
@@ -308,11 +345,55 @@ export function EmergencyCard() {
 
       {/* Quiet Utility Actions */}
       <footer className="no-print flex flex-wrap items-center justify-between gap-3 px-1 text-xs text-slate-500">
-        <span>
-          {isPt
-            ? 'Emergência Brasil: SAMU 192 · Bombeiros 193 · Polícia 190'
-            : 'Brazil Emergency: EMS (SAMU) 192 · Fire 193 · Police 190'}
-        </span>
+        {isPt ? (
+          <span className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
+            <span>Emergência Brasil:</span>
+            <a
+              href="tel:192"
+              className="font-semibold text-slate-700 hover:text-red-700 underline underline-offset-2 decoration-slate-300 tabular-nums transition-colors"
+            >
+              SAMU 192
+            </a>
+            <span aria-hidden="true">·</span>
+            <a
+              href="tel:193"
+              className="font-semibold text-slate-700 hover:text-red-700 underline underline-offset-2 decoration-slate-300 tabular-nums transition-colors"
+            >
+              Bombeiros 193
+            </a>
+            <span aria-hidden="true">·</span>
+            <a
+              href="tel:190"
+              className="font-semibold text-slate-700 hover:text-red-700 underline underline-offset-2 decoration-slate-300 tabular-nums transition-colors"
+            >
+              Polícia 190
+            </a>
+          </span>
+        ) : (
+          <span className="flex flex-wrap items-center gap-x-1.5 gap-y-1">
+            <span>US Emergency:</span>
+            <a
+              href="tel:911"
+              className="font-semibold text-slate-700 hover:text-red-700 underline underline-offset-2 decoration-slate-300 tabular-nums transition-colors"
+            >
+              911 (EMS / Fire / Police)
+            </a>
+            <span aria-hidden="true">·</span>
+            <a
+              href="tel:+18002221222"
+              className="font-semibold text-slate-700 hover:text-red-700 underline underline-offset-2 decoration-slate-300 tabular-nums transition-colors"
+            >
+              Poison Control 1-800-222-1222
+            </a>
+            <span aria-hidden="true">·</span>
+            <a
+              href="tel:988"
+              className="font-semibold text-slate-700 hover:text-red-700 underline underline-offset-2 decoration-slate-300 tabular-nums transition-colors"
+            >
+              Crisis Lifeline 988
+            </a>
+          </span>
+        )}
 
         <div className="flex flex-wrap items-center gap-2">
           <button

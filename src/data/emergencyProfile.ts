@@ -19,6 +19,12 @@ export interface EmergencyProfile {
   cityState: string;
   nationalityPt: string;
   nationalityEn: string;
+  sexPt: string;
+  sexEn: string;
+  weightPt: string;
+  weightEn: string;
+  heightPt: string;
+  heightEn: string;
   bloodType: string;
   conditionsPt: string[];
   conditionsEn: string[];
@@ -36,6 +42,12 @@ export const ESTER_PROFILE: EmergencyProfile = {
   cityState: 'Goiânia/GO',
   nationalityPt: 'Brasileira',
   nationalityEn: 'Brazilian',
+  sexPt: 'Feminino',
+  sexEn: 'Female',
+  weightPt: '62 kg',
+  weightEn: '62 kg',
+  heightPt: '1,61 m',
+  heightEn: '1.61 m',
   bloodType: 'AB+',
   conditionsPt: ['Nenhuma'],
   conditionsEn: ['None'],
