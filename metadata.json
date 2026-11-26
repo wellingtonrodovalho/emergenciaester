@@ -1,0 +1,6 @@
+{
+  "name": "Cartão de Emergência — Ester Monteiro Fonseca",
+  "description": "Cartão de emergência médica bilíngue (PT/EN) de Ester Monteiro Fonseca com informações clínicas essenciais e contatos de emergência interativos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
